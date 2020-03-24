@@ -11,11 +11,11 @@ $db->query($sql);
 $user = $db->single();
 
 if(!$_COOKIE['id']){
-	header('Location: index.html');
+	header('Location: index.php');
 }
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
-	//echo "<pre>";
+	
 	//print_r($_POST);
 	extract($_POST);
 	$sql = "INSERT INTO history(userId, address1, city, state, zip, gallonsRequested, suggestedPrice, totalAmountDue, deliveryDate) VALUES ('$user->id','$user->address1', '$user->city', '$user->state','$user->zip','$gallonsRequested', '$suggestedPrice', '$totalAmountDue','$deliveryDate')";
