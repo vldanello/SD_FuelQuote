@@ -13,14 +13,6 @@ $user = $db->single();
 if(!$_COOKIE['id']){
 	header('Location: index.php');
 }
-if($_SERVER['REQUEST_METHOD']=='POST'){
-	extract($_POST);
-	$sql = "UPDATE users 
-			SET fullName='$fullName', address1='$address1',address2='$address2', city='$city', state='$state', zip='$zip'
-			WHERE id ='$user->id' ";
-		$db->query($sql);
-		$result = $db->execute();	
-}
 
 
 ?>
@@ -130,7 +122,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
               <h4>Edit Profile</h4>
             </div>
             <div class="card-body">
-              <form action="profile.php" method="POST">
+              <form action="profileScript.php" method="POST">
                 <div class="form-group">
                   <label for="fullName">Full Name </label>
                   <input type="text"  name = "fullName" placeholder="Enter Your Full Name Here" maxlength=50 required class="form-control" value ="<?= (isset($user->fullName))? $user->fullName:''; ?>">

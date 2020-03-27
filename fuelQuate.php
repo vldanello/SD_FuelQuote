@@ -14,17 +14,6 @@ if(!$_COOKIE['id']){
 	header('Location: index.php');
 }
 
-if($_SERVER['REQUEST_METHOD']=='POST'){
-	
-	//print_r($_POST);
-	extract($_POST);
-	$sql = "INSERT INTO history(userId, address1, city, state, zip, gallonsRequested, suggestedPrice, totalAmountDue, deliveryDate) VALUES ('$user->id','$user->address1', '$user->city', '$user->state','$user->zip','$gallonsRequested', '$suggestedPrice', '$totalAmountDue','$deliveryDate')";
-	
-	//echo $sql;die;
-	$db->query($sql);
-	$db->execute();	
-}
-
 
 ?>
 <!DOCTYPE html>
@@ -111,34 +100,34 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
               <h4>Edit Profile</h4>
             </div>
             <div class="card-body">
-              <form action="fuelQuate.php" method="POST">
+              <form action="fuelQuoteScript.php" method="POST" autocomplete="off">
                 <div class="form-group">
                   <label for="gallonsRequested">GallonsRequested </label>
                   <input type="text" min=0 onkeyup="document.getElementById('suggestedPrice').value=pricing(this.value)"  name = "gallonsRequested" placeholder="0" required class="form-control">
                 </div>
                 <div class="form-group">
                   <label for="address1">Address1</label>
-                    <input type="text" name = "address1" placeholder="Address1" maxlength=100 required class="form-control" value ="<?PHP echo $user->address1; ?>" onkeydown="noEdit(event);">
+                    <input type="text" name="address1" autocomplete="off" placeholder="Address1" maxlength=100 required class="form-control" value ="<?PHP echo $user->address1; ?>" onclick="noEdit(event)" onfocus="noEdit(event)" onkeydown="noEdit(event);">
                 </div>
                 <div class="form-group">
                   <label for="address2">Address2 </label>
-                  <input type="text" name = "address2" placeholder="Address2 (Optional)" maxlength=100 class="form-control"value ="<?PHP echo $user->address2; ?>" onkeydown="noEdit(event);">
+                  <input type="text" name="address2" autocomplete="off" placeholder="Address2 (Optional)" maxlength=100 class="form-control"value ="<?PHP echo $user->address2; ?>" onkeydown="noEdit(event);">
                 </div>
                 <div class="form-group">
                   <label for="city">City </label>
-                  <input type="text" name = "city" placeholder="City" maxlength=100 required class="form-control" value ="<?PHP echo $user->city; ?>" onkeydown="noEdit(event);" >
+                  <input type="text" name="city" autocomplete="off" placeholder="City" maxlength=100 required class="form-control" value ="<?PHP echo $user->city; ?>" onkeydown="noEdit(event);" >
                 </div>
                 <div class="form-group">
                   <label for="state">State</label>  
-                  <input type="text" name = "state" placeholder="State" maxlength=100 required class="form-control" value ="<?PHP echo $user->state; ?>" onkeydown="noEdit(event);" >
+                  <input type="text" name="state" autocomplete="off" placeholder="State" maxlength=100 required class="form-control" value ="<?PHP echo $user->state; ?>" onkeydown="noEdit(event);" >
                 </div>
                 <div class="form-group">
                   <label for="zip">Zip Code</label>
-                  <input type="text" name = "zip" placeholder="Zip" maxlength=100 required class="form-control" value ="<?PHP echo $user->zip; ?>" onkeydown="noEdit(event);" >
+                  <input type="text" name = "zip" autocomplete="off" placeholder="Zip" maxlength=100 required class="form-control" value ="<?PHP echo $user->zip; ?>" onkeydown="noEdit(event);" >
                 </div>
                 <div class="form-group">
                   <label for="deliveryDate">Delivery Date</label>
-                  <input type="date" name = "deliveryDate" placeholder="Delivery Date" required class="form-control">
+                  <input type="date" name = "deliveryDate" placeholder="yyyy-mm-dd" required class="form-control"> 
                 </div>
                 <div class="form-group">
                   <label for="suggestedPrice">Suggested price</label>

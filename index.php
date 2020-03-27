@@ -1,4 +1,5 @@
 <?PHP
+session_start();
  if(isset($_GET['lo']))
  {
 	echo "<div class='alert alert-success'><strong>You have logged out.</div>";}
