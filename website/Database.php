@@ -56,7 +56,7 @@
 	 //Execute the prepared statement
 	 public function execute(){
 		  $this->stmt->execute();
-		  $this->lastInsertId=$this->dbh->lastInsertId();
+		  $this->lastInsertId = $this->dbh->lastInsertId();
 	 }
 	 //Get result set as array of objects
 	 public function resultSet(){
