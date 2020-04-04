@@ -12,19 +12,19 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function successfulLoginRoute()
+    protected function successfulEditProfileRoute()
     {
-        return route('home');
+        return route('Edit Profile');
     }
 
-    protected function loginGetRoute()
+    protected function DashboardRoute()
     {
-        return route('login');
+        return route('Back To Dashboard');
     }
 
-    protected function loginPostRoute()
+    protected function SubmitRoute()
     {
-        return route('login');
+        return route('Submit');
     }
 
     protected function logoutRoute()
@@ -48,38 +48,50 @@ class LoginTest extends TestCase
     }
 
     
-    public function testUserCanLoginWithCorrectCredentials()
+    public function testUserCanEnterInformation()
     {
-        $user = factory(User::class)->create([
-            'password' => Hash::make($password = 'i-love-laravel'),
+        Event::fake();
+
+        $response = $this->post($this->registerPostRoute(), [
+            'Full Name' => 'John Doe',
+            'Address1' => '123 Street',
+            'City' => 'Houston',
+            'State' => 'TX',
+            'Zip Code' => '123456',
+    
         ]);
 
-        $response = $this->post($this->loginPostRoute(), [
-            'email' => $user->email,
-            'password' => $password,
-        ]);
-
-        $response->assertRedirect($this->successfulLoginRoute());
-        $this->assertAuthenticatedAs($user);
+        $response->assertRedirect($this->successfulRegistrationRoute());
+        $this->assertCount(1, $users = User::all());
+        $this->assertAuthenticatedAs($user = $users->first());
+        $this->assertEquals('John Doe', $user->name);
+        $this->assertEquals('john@example.com', $user->address);
+        $this->assertEquals('john@example.com', $user->city);
+        $this->assertEquals('john@example.com', $user->state);
+        $this->assertEquals('john@example.com', $user->zipcode);
+        Event::assertDispatched(EditProfile::class, function ($e) use ($user) {
+            return $e->user->id === $user->id;
+        });
     }
 
-    
-
-    public function testUserCannotLoginWithIncorrectPassword()
+      
+    public function testUserCanSubmit()
     {
-        $user = factory(User::class)->create([
-            'password' => Hash::make('i-love-laravel'),
-        ]);
+        $this->be(factory(User::class)->create());
 
-        $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
-            'email' => $user->email,
-            'password' => 'invalid-password',
-        ]);
+        $response = $this->post($this->SubmitRoute());
 
-        $response->assertRedirect($this->loginGetRoute());
-        $response->assertSessionHasErrors('email');
-        $this->assertTrue(session()->hasOldInput('email'));
-        $this->assertFalse(session()->hasOldInput('password'));
+        $response->assertRedirect($this->successfulSubmitRoute());
+        $this->assertGuest();
+    }
+
+    public function testUserCanDashboard()
+    {
+        $this->be(factory(User::class)->create());
+
+        $response = $this->post($this->DashbaordRoute());
+
+        $response->assertRedirect($this->successfulDashboardRoute());
         $this->assertGuest();
     }
 
