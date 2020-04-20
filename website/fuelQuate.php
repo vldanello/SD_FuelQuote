@@ -6,9 +6,13 @@ include "Database.php";
 
 $db = new Database();
 
-$sql="SELECT * from users where id = '$_COOKIE[id]'";
+$sql="SELECT * from users where login_id = '$_COOKIE[id]'";
 $db->query($sql);
 $user = $db->single();
+
+$sql="SELECT * from client_information where login_id = '$_COOKIE[id]'";
+$db->query($sql);
+$info_user = $db->single();
 
 if(!$_COOKIE['id']){
 	header('Location: index.php');
@@ -107,23 +111,23 @@ if(!$_COOKIE['id']){
                 </div>
                 <div class="form-group">
                   <label for="address1">Address1</label>
-                    <input type="text" name="address1" autocomplete="off" placeholder="Address1" maxlength=100 required class="form-control" value ="<?PHP echo $user->address1; ?>" onclick="noEdit(event)" onfocus="noEdit(event)" onkeydown="noEdit(event);">
+                    <input type="text" name="address1" autocomplete="off" placeholder="Address1" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->address1; ?>" onclick="noEdit(event)" onfocus="noEdit(event)" onkeydown="noEdit(event);">
                 </div>
                 <div class="form-group">
                   <label for="address2">Address2 </label>
-                  <input type="text" name="address2" autocomplete="off" placeholder="Address2 (Optional)" maxlength=100 class="form-control"value ="<?PHP echo $user->address2; ?>" onkeydown="noEdit(event);">
+                  <input type="text" name="address2" autocomplete="off" placeholder="Address2 (Optional)" maxlength=100 class="form-control"value ="<?PHP echo $info_user->address2; ?>" onkeydown="noEdit(event);">
                 </div>
                 <div class="form-group">
                   <label for="city">City </label>
-                  <input type="text" name="city" autocomplete="off" placeholder="City" maxlength=100 required class="form-control" value ="<?PHP echo $user->city; ?>" onkeydown="noEdit(event);" >
+                  <input type="text" name="city" autocomplete="off" placeholder="City" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->city; ?>" onkeydown="noEdit(event);" >
                 </div>
                 <div class="form-group">
                   <label for="state">State</label>  
-                  <input type="text" name="state" autocomplete="off" placeholder="State" maxlength=100 required class="form-control" value ="<?PHP echo $user->state; ?>" onkeydown="noEdit(event);" >
+                  <input type="text" name="state" autocomplete="off" placeholder="State" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->state; ?>" onkeydown="noEdit(event);" >
                 </div>
                 <div class="form-group">
                   <label for="zip">Zip Code</label>
-                  <input type="text" name = "zip" autocomplete="off" placeholder="Zip" maxlength=100 required class="form-control" value ="<?PHP echo $user->zip; ?>" onkeydown="noEdit(event);" >
+                  <input type="text" name = "zip" autocomplete="off" placeholder="Zip" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->zip; ?>" onkeydown="noEdit(event);" >
                 </div>
                 <div class="form-group">
                   <label for="deliveryDate">Delivery Date</label>

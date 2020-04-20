@@ -9,7 +9,7 @@ if(!$_COOKIE['id']){
 
 $db = new Database();
 
-$sql="SELECT * from users where id = '$_COOKIE[id]'";
+$sql="SELECT * from users where login_id = '$_COOKIE[id]'";
 $db->query($sql);
 $user = $db->single();
 

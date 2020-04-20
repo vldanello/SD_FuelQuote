@@ -6,9 +6,15 @@ include "Database.php";
 
 $db = new Database();
 
-$sql="SELECT * from users where id = '$_COOKIE[id]'";
+$sql="SELECT * from client_information where login_id = '$_COOKIE[id]'";
 $db->query($sql);
 $user = $db->single();
+
+$sql="SELECT * from users where login_id = '$_COOKIE[id]'";
+$db->query($sql);
+$log_user = $db->single();
+
+
 
 if(!$_COOKIE['id']){
 	header('Location: index.php');
@@ -53,7 +59,7 @@ if(!$_COOKIE['id']){
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown mr-3">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <i class="fas fa-user"></i> Welcome <?PHP echo $user->userName; ?>
+              <i class="fas fa-user"></i> Welcome <?PHP echo $log_user->userName; ?>
             </a>
             <div class="dropdown-menu">
               <a href="profile.php" class="dropdown-item">
@@ -92,16 +98,7 @@ if(!$_COOKIE['id']){
             <i class="fas fa-arrow-left"></i> Back To Dashboard
           </a>
         </div>
-        <div class="col-md-3">
-          <a href="#" class="btn btn-success btn-block">
-            <i class="fas fa-lock"></i> Change Password
-          </a>
-        </div>
-        <div class="col-md-3">
-          <a href="#" class="btn btn-danger btn-block">
-            <i class="fas fa-trash"></i> Delete Account
-          </a>
-        </div>
+        
       </div>
     </div>
   </section>

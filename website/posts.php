@@ -6,22 +6,32 @@ include "Database.php";
 
 $db = new Database();
 
-$sql="SELECT * from users where id = '$_COOKIE[id]'";
+$sql="SELECT * from users where login_id = '$_COOKIE[id]'";
 $db->query($sql);
 $user = $db->single();
+
+
 
 if(!$_COOKIE['id']){
 	header('Location: index.php');
 }
+
 if ($_COOKIE['id']){
 
-	$sql="SELECT gallonsRequested, address1, city, state, zip, suggestedPrice, totalAmountDue, deliveryDate  from history where userId = '$user->id'";
-		
+
+
+	$sql= "SELECT * FROM fuelQuote
+	WHERE login_id='$_COOKIE[id]'
+	ORDER BY deliveryDate DESC	";
 	$db->query($sql);
 	$result = $db->resultSet();
-	//$rowNum = $db->rowCount();
-	// echo "<pre>";
-	// echo print_r($result);die;
+
+
+	
+	// echo"<PRE>";
+	// print_r($_COOKIE['id']); die;
+	
+	
 }
 
 ?>
@@ -117,7 +127,7 @@ if ($_COOKIE['id']){
               </thead>
 
               <tbody>
-             <?PHP
+			  <?PHP
 				$num=1;
 				foreach($result as $item){
 					echo "<tr>
@@ -131,6 +141,7 @@ if ($_COOKIE['id']){
 						$num++;
 				}
 			 ?>
+            
               </tbody>
             </table>
   </section>
