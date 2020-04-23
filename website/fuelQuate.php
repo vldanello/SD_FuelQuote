@@ -19,6 +19,13 @@ if(!$_COOKIE['id']){
 }
 
 
+$sql="SELECT city from client_information where login_id = '$_COOKIE[id]'";
+$db->query($sql);
+$city = $db->single();
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,12 +38,13 @@ if(!$_COOKIE['id']){
     crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="css/style.css">
+ <!-- <link rel="stylesheet" href="css/style.css">-->
   <title>COSC 4353 </title>
   <script>
 		function noEdit(event){
 			event.preventDefault();
 		}
+
   </script>
 </head>
 
@@ -93,63 +101,69 @@ if(!$_COOKIE['id']){
       </div>
     </div>
   </header>
+  
 
-   <!-- input info form here -->
-   <section id="profile">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9">
-          <div class="card">
-            <div class="card-header">
-              <h4>Edit Profile</h4>
-            </div>
-            <div class="card-body">
-              <form action="fuelQuoteScript.php" method="POST" autocomplete="off">
-                <div class="form-group">
-                  <label for="gallonsRequested">GallonsRequested </label>
-                  <input type="text" min=0 onkeyup="document.getElementById('suggestedPrice').value=pricing(this.value)"  name = "gallonsRequested" placeholder="0" required class="form-control">
-                </div>
-                <div class="form-group">
-                  <label for="address1">Address1</label>
-                    <input type="text" name="address1" autocomplete="off" placeholder="Address1" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->address1; ?>" onclick="noEdit(event)" onfocus="noEdit(event)" onkeydown="noEdit(event);">
-                </div>
-                <div class="form-group">
-                  <label for="address2">Address2 </label>
-                  <input type="text" name="address2" autocomplete="off" placeholder="Address2 (Optional)" maxlength=100 class="form-control"value ="<?PHP echo $info_user->address2; ?>" onkeydown="noEdit(event);">
-                </div>
-                <div class="form-group">
-                  <label for="city">City </label>
-                  <input type="text" name="city" autocomplete="off" placeholder="City" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->city; ?>" onkeydown="noEdit(event);" >
-                </div>
-                <div class="form-group">
-                  <label for="state">State</label>  
-                  <input type="text" name="state" autocomplete="off" placeholder="State" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->state; ?>" onkeydown="noEdit(event);" >
-                </div>
-                <div class="form-group">
-                  <label for="zip">Zip Code</label>
-                  <input type="text" name = "zip" autocomplete="off" placeholder="Zip" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->zip; ?>" onkeydown="noEdit(event);" >
-                </div>
-                <div class="form-group">
-                  <label for="deliveryDate">Delivery Date</label>
-                  <input type="date" name = "deliveryDate" placeholder="yyyy-mm-dd" required class="form-control"> 
-                </div>
-                <div class="form-group">
-                  <label for="suggestedPrice">Suggested price</label>
-                  <input type="text" onkeydown="noEdit(event);" id="suggestedPrice"   name = "suggestedPrice"   class="form-control">
-                </div>
-                <div class="form-group">
-                  <label for="totalAmountDue">Total Amount Due</label>
-                  <input type="text" onkeydown="noEdit(event);" id="totalAmountDue" name = "totalAmountDue"    class="form-control">
-                </div> 
-                <input type="submit" value="Submit" class="btn btn-primary btn-block">
-                
-                
-              </form>
-            </div>
-          </div>
-        </div>
-        
-  </section>
+			
+								   <!-- input info form here -->
+								   <section id="profile">
+									<div class="container">
+									  <div class="row">
+										<div class="col-md-9">
+										  <div class="card">
+											<div class="card-header">
+										   
+											</div>
+											
+											<div class="card-body">
+											  <form onsubmit="return validateF()" action="fuelQuoteScript.php" method="POST" autocomplete="off">
+												<input type="hidden" name="uid" id="uid" value="<?= $_COOKIE['id']; ?>">
+												<div class="form-group">
+												  <label for="gallonsRequested">GallonsRequested </label>
+												  <input type="text" min=0 onkeyup="document.getElementById('suggestedPrice').value=pricing(this.value)"  name = "gallonsRequested" id = "gallonsRequested" placeholder="0" required class="form-control">
+												</div>
+												<div class="form-group">
+												  <label for="address1">Address1</label>
+													<input type="text" name="address1" autocomplete="off" placeholder="Address1" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->address1; ?>" onclick="noEdit(event)" onfocus="noEdit(event)" onkeydown="noEdit(event);">
+												</div>
+												<div class="form-group">
+												  <label for="address2">Address2 </label>
+												  <input type="text" name="address2" autocomplete="off" placeholder="Address2 (Optional)" maxlength=100 class="form-control"value ="<?PHP echo $info_user->address2; ?>" onkeydown="noEdit(event);">
+												</div>
+												<div class="form-group">
+												  <label for="city">City </label>
+												  <input type="text" name="city" autocomplete="off" placeholder="City" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->city; ?>" onkeydown="noEdit(event);" >
+												</div>
+												<div class="form-group">
+												  <label for="state">State</label>  
+												  <input type="text" name="state" autocomplete="off" placeholder="State" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->state; ?>" onkeydown="noEdit(event);" >
+												</div>
+												<div class="form-group">
+												  <label for="zip">Zip Code</label>
+												  <input type="text" name = "zip" autocomplete="off" placeholder="Zip" maxlength=100 required class="form-control" value ="<?PHP echo $info_user->zip; ?>" onkeydown="noEdit(event);" >
+												</div>
+												<div class="form-group">
+												  <label for="deliveryDate">Delivery Date</label>
+												  <input type="date" name = "deliveryDate" id = "deliveryDate" placeholder="yyyy-mm-dd" required class="form-control"> 
+												</div>
+												<div class="form-group">
+												  <label for="suggestedPrice">Suggested price</label>
+												  <input type="text" onkeydown="noEdit(event);" id="suggestedPrice"   name = "suggestedPrice"   class="form-control" required onkeydown="noEdit(event);">
+												</div>
+												<div class="form-group">
+												  <label for="totalAmountDue">Total Amount Due</label>
+												  <input type="text" onkeydown="noEdit(event);" id="totalAmountDue" name = "totalAmountDue"    class="form-control" required onkeydown="noEdit(event);">
+												</div>
+									
+												<button onclick="getPrice(event);" class="btn btn-warning btn-block">Get Price</button>	
+												
+												<input type="submit" value="Submit" class="btn btn-primary btn-block">
+												
+											  </form>
+											</div>
+										</div>
+										</div>
+										 </section>
+											 
  
   <!-- FOOTER -->
   <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
@@ -163,13 +177,57 @@ if(!$_COOKIE['id']){
 
   <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
    
-   <script src="price.js"> </script>
+   <!--<script src="price.js"> </script>-->
+   <script>
+		function getPrice(event){
+			event.preventDefault();
+			var uid = document.getElementById('uid');
+			var deliveryDate = document.getElementById('deliveryDate');
+			var gallonsRequested = document.getElementById('gallonsRequested');
+			var suggestedPrice = document.getElementById('suggestedPrice');
+			var totalAmountDue = document.getElementById('totalAmountDue');
+			
+			var data = {"gallonsRequested":gallonsRequested.value,"deliveryDate":deliveryDate.value,"uid":uid.value};
+
+		var r = $.ajax({
+				url:'processQuote.php',
+				type:'POST',
+				data:data,
+				dataType: 'json',
+				success:function(msg){
+					suggestedPrice.value = formatNum(msg.suggestedPrice,2);
+					totalAmountDue.value = formatNum(msg.totalAmountDue,2);
+					
+				}
+			})
+		}
+		function validateF(){
+			
+			var suggestedPrice = document.getElementById('suggestedPrice');
+			var totalAmountDue = document.getElementById('totalAmountDue');
+			if (suggestedPrice.value == "" || totalAmountDue.value =="") {
+				return false; 
+			}else{
+				return true;
+			}
+			
+		}
+		function formatNum(num,digits) {
+                num=num*1;
+			return num.toFixed(digits).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1")
+		}
+		
+   </script>
+
    
 </body>
+
+
 
 </html>

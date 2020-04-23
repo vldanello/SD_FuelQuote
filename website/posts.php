@@ -34,6 +34,13 @@ if ($_COOKIE['id']){
 	
 }
 
+function formatDate($dayTime){
+	 $arr = explode(' ', $dayTime);
+	 $d = new DateTime($arr[0]);
+	 return $d->format('M d, Y');
+ }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
