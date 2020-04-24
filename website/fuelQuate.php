@@ -3,7 +3,7 @@ session_start();
 
 include "Database.php";
 
-
+date_default_timezone_set("America/Chicago");
 $db = new Database();
 
 $sql="SELECT * from users where login_id = '$_COOKIE[id]'";
@@ -13,6 +13,8 @@ $user = $db->single();
 $sql="SELECT * from client_information where login_id = '$_COOKIE[id]'";
 $db->query($sql);
 $info_user = $db->single();
+#echo"<PRE>";
+#print_r($_COOKIE[id]); die;
 
 if(!$_COOKIE['id']){
 	header('Location: index.php');
@@ -22,6 +24,13 @@ if(!$_COOKIE['id']){
 $sql="SELECT city from client_information where login_id = '$_COOKIE[id]'";
 $db->query($sql);
 $city = $db->single();
+
+
+$today = new DateTime();
+
+
+
+
 
 
 
@@ -39,7 +48,10 @@ $city = $db->single();
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
  <!-- <link rel="stylesheet" href="css/style.css">-->
-  <title>COSC 4353 </title>
+ 
+ 
+ 
+ 
   <script>
 		function noEdit(event){
 			event.preventDefault();
@@ -143,7 +155,7 @@ $city = $db->single();
 												</div>
 												<div class="form-group">
 												  <label for="deliveryDate">Delivery Date</label>
-												  <input type="date" name = "deliveryDate" id = "deliveryDate" placeholder="yyyy-mm-dd" required class="form-control"> 
+												  <input type="date" name = "deliveryDate" id = "deliveryDate" placeholder="yyyy-mm-dd" required class="form-control datepickstart" min="<?= $today->format('Y-m-d')?>" value="<?= $today->format('Y-m-d')?>">
 												</div>
 												<div class="form-group">
 												  <label for="suggestedPrice">Suggested price</label>
@@ -223,6 +235,15 @@ $city = $db->single();
 			return num.toFixed(digits).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1")
 		}
 		
+		$('#deliveryDate').datepicker({
+            todayHighlight: true,
+            autoclose: true,
+            format: "dd/mm/yyyy",
+            clearBtn : true,
+            startDate : new Date()
+        })
+					
+					
    </script>
 
    
